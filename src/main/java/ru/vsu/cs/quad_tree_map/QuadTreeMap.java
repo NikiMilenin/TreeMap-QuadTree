@@ -49,23 +49,22 @@ public class QuadTreeMap<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T
         K2 node_second_key = node.getSecondKey();
         if (node_first_key.compareTo(first_key) == 0 && node_second_key.compareTo(second_key) ==0) {
             node.setData(value);
-        }
-        if (node_first_key.compareTo(first_key) < 0 && node_second_key.compareTo(second_key) > 0) {
+        } else if (node_first_key.compareTo(first_key) <= 0 && node_second_key.compareTo(second_key) >= 0) {
             if (NorthEast == null) {
                 NorthEast = new QuadTreeMap<>();
             }
             NorthEast.insert(first_key, second_key, value);
-        } else if (node_first_key.compareTo(first_key) > 0 && node_second_key.compareTo(second_key) > 0) {
+        } else if (node_first_key.compareTo(first_key) >= 0 && node_second_key.compareTo(second_key) >= 0) {
             if (NorthWest == null) {
                 NorthWest = new QuadTreeMap<>();
             }
             NorthWest.insert(first_key, second_key, value);
-        } else if (node_first_key.compareTo(first_key) > 0 && node_second_key.compareTo(second_key) < 0) {
+        } else if (node_first_key.compareTo(first_key) >= 0 && node_second_key.compareTo(second_key) <= 0) {
             if (SouthWest == null) {
                 SouthWest = new QuadTreeMap<>();
             }
             SouthWest.insert(first_key, second_key, value);
-        } else if (node_first_key.compareTo(first_key) < 0 && node_second_key.compareTo(second_key) < 0) {
+        } else if (node_first_key.compareTo(first_key) <= 0 && node_second_key.compareTo(second_key) <= 0) {
             if (SouthEast == null) {
                 SouthEast = new QuadTreeMap<>();
             }
@@ -83,25 +82,25 @@ public class QuadTreeMap<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T
         if (node_first_key.compareTo(first_key) == 0 && node_second_key.compareTo(second_key) == 0) {
             return node.getData();
         }
-        if (node_first_key.compareTo(first_key) < 0 && node_second_key.compareTo(second_key) > 0) {
+        if (node_first_key.compareTo(first_key) <= 0 && node_second_key.compareTo(second_key) >= 0) {
             if (NorthEast == null) {
                 System.out.println("Проблемы с получением по ключу");
                 return null;
             }
             return NorthEast.get(first_key, second_key);
-        } else if (node_first_key.compareTo(first_key) > 0 && node_second_key.compareTo(second_key) > 0) {
+        } else if (node_first_key.compareTo(first_key) >= 0 && node_second_key.compareTo(second_key) >= 0) {
             if (NorthWest == null) {
                 System.out.println("Проблемы с получением по ключу");
                 return null;
             }
             return NorthWest.get(first_key, second_key);
-        } else if (node_first_key.compareTo(first_key) > 0 && node_second_key.compareTo(second_key) < 0) {
+        } else if (node_first_key.compareTo(first_key) >= 0 && node_second_key.compareTo(second_key) <= 0) {
             if (SouthWest == null) {
                 System.out.println("Проблемы с получением по ключу");
                 return null;
             }
             return SouthWest.get(first_key, second_key);
-        } else if (node_first_key.compareTo(first_key) < 0 && node_second_key.compareTo(second_key) < 0) {
+        } else if (node_first_key.compareTo(first_key) <= 0 && node_second_key.compareTo(second_key) <= 0) {
             if (SouthEast == null) {
                 System.out.println("Проблемы с получением по ключу");
                 return null;
@@ -125,6 +124,10 @@ public class QuadTreeMap<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T
             NorthWest = null;
             SouthEast = null;
             SouthWest = null;
+            this.node = null;
+            for (Node<K1, K2, T> t : nodes) {
+                this.insert(t.getFirstKey(), t.getSecondKey(), t.data);
+            }
         }
     }
 
