@@ -1,7 +1,7 @@
-package ru.vsu.cs.milenin;
+package mainpkg;
 
 
-import ru.vsu.cs.quad_tree_map.QuadTreeMap;
+import quad_tree_map.QuadTreeMap;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,6 +11,7 @@ public class Main {
         map.insert(2, 2, 113);
         map.insert(1, 7, 11);
         map.insert(3, 7, 22);
+        map.delete(2, 2);
         for (Integer t:map) {
             System.out.print(t);
             System.out.print(" ");

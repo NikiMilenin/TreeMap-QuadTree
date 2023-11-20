@@ -1,4 +1,4 @@
-package ru.vsu.cs.quad_tree_map;
+package quad_tree_map;
 
 public interface NodeInterface<K1, K2, T> {
     K1 getFirstKey();

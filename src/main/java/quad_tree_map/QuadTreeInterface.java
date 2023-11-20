@@ -1,4 +1,4 @@
-package ru.vsu.cs.quad_tree_map;
+package quad_tree_map;
 import java.util.Iterator;
 
 public interface QuadTreeInterface<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T> extends Iterable<T>{

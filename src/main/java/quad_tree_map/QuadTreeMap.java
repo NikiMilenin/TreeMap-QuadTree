@@ -1,4 +1,4 @@
-package ru.vsu.cs.quad_tree_map;
+package quad_tree_map;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -114,6 +114,7 @@ public class QuadTreeMap<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T
 
     @Override
     public void delete(K1 first_key, K2 second_key) {
+        if (node == null) return;
         K1 node_first_key = node.getFirstKey();
         K2 node_second_key = node.getSecondKey();
         if (node_first_key.compareTo(first_key) == 0 && node_second_key.compareTo(second_key) == 0) {
@@ -128,10 +129,37 @@ public class QuadTreeMap<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T
             for (Node<K1, K2, T> t : nodes) {
                 this.insert(t.getFirstKey(), t.getSecondKey(), t.data);
             }
+        } else if (node_first_key.compareTo(first_key) <= 0 && node_second_key.compareTo(second_key) >= 0) {
+            if (NorthEast == null) {
+                System.out.println("Проблемы с получением по ключу");
+                return;
+            }
+            NorthEast.delete(first_key, second_key);
+        } else if (node_first_key.compareTo(first_key) >= 0 && node_second_key.compareTo(second_key) >= 0) {
+            if (NorthWest == null) {
+                System.out.println("Проблемы с получением по ключу");
+                return;
+            }
+            NorthWest.delete(first_key, second_key);
+        } else if (node_first_key.compareTo(first_key) >= 0 && node_second_key.compareTo(second_key) <= 0) {
+            if (SouthWest == null) {
+                System.out.println("Проблемы с получением по ключу");
+                return;
+            }
+            SouthWest.delete(first_key, second_key);
+        } else if (node_first_key.compareTo(first_key) <= 0 && node_second_key.compareTo(second_key) <= 0) {
+            if (SouthEast == null) {
+                System.out.println("Проблемы с получением по ключу");
+                return;
+            }
+            SouthEast.delete(first_key, second_key);
+        } else {
+            System.out.println("Проблемы с получением по ключу");
         }
     }
 
     private void addLeaves(LinkedList<Node<K1, K2, T>> nodes) {
+        if (node == null) return;
         nodes.add(node);
         if(NorthWest != null ) NorthWest.addLeaves(nodes);
         if(NorthEast != null ) NorthEast.addLeaves(nodes);
@@ -154,10 +182,10 @@ public class QuadTreeMap<K1 extends Comparable<K1>, K2 extends Comparable<K2>, T
 
             public T next() {
                 QuadTreeMap<K1, K2, T> node = stack.pop();
-                if(node.NorthWest != null && node.node != null) stack.push(node.NorthWest);
-                if(node.NorthEast != null && node.node != null) stack.push(node.NorthEast);
-                if(node.SouthEast != null && node.node != null) stack.push(node.SouthEast);
-                if(node.SouthWest != null && node.node != null) stack.push(node.SouthWest);
+                if(node.NorthWest != null && node.NorthWest.node != null) stack.push(node.NorthWest);
+                if(node.NorthEast != null && node.NorthEast.node != null) stack.push(node.NorthEast);
+                if(node.SouthEast != null && node.SouthEast.node != null) stack.push(node.SouthEast);
+                if(node.SouthWest != null && node.SouthWest.node != null) stack.push(node.SouthWest);
 
                 return node.node.getData();
             }
